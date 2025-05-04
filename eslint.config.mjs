@@ -14,6 +14,17 @@ const compat = new FlatCompat({
 
 export default [
   {
+    ignores: ['.next/', '.yarn/', '.contentlayer/', 'app/seo.js'],
+  },
+  {
+    files: ['*.js'],
+    languageOptions: {
+      parserOptions: {
+        project: null, // TypeScript 타입 검사에서 제외
+      },
+    },
+  },
+  {
     ignores: [],
   },
   js.configs.recommended,

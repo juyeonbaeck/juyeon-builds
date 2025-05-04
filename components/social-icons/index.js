@@ -31,7 +31,8 @@ const components = {
 const SocialIcon = ({ kind, href, size = 8 }) => {
   if (
     !href ||
-    (kind === 'mail' && !/^mailto:[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(href))
+    (kind === 'mail' &&
+      !/^mailto:[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(href))
   )
     return null
 

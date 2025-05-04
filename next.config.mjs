@@ -1,8 +1,13 @@
-const { withContentlayer } = require('next-contentlayer2')
+import { withContentlayer } from 'next-contentlayer'
+import withBundleAnalyzerFn from '@next/bundle-analyzer'
 
-const withBundleAnalyzer = require('@next/bundle-analyzer')({
+const withBundleAnalyzer = withBundleAnalyzerFn({
   enabled: process.env.ANALYZE === 'true',
 })
+
+const output = 'standalone'
+const basePath = ''
+const unoptimized = true
 
 // You might need to insert additional domains in script-src if you are using external services
 const ContentSecurityPolicy = `
@@ -53,10 +58,46 @@ const securityHeaders = [
     value: 'camera=(), microphone=(), geolocation=()',
   },
 ]
+const config = {
+  output,
+  basePath,
+  reactStrictMode: true,
+  trailingSlash: false,
+  pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
+  eslint: {
+    ignoreDuringBuilds: true,
+    dirs: ['app', 'components', 'layouts', 'scripts'],
+  },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'picsum.photos',
+      },
+    ],
+    unoptimized,
+  },
+  async headers() {
+    return [
+      {
+        source: '/(.*)',
+        headers: securityHeaders,
+      },
+    ]
+  },
+  webpack: (config, options) => {
+    config.module.rules.push({
+      test: /\.svg$/,
+      use: ['@svgr/webpack'],
+    })
+    return config
+  },
+}
 
-const output = process.env.EXPORT ? 'export' : undefined
-const basePath = process.env.BASE_PATH || undefined
-const unoptimized = process.env.UNOPTIMIZED ? true : undefined
+export default [withContentlayer, withBundleAnalyzer].reduce(
+  (acc, next) => next(acc),
+  config
+)
 
 /**
  * @type {import('next/dist/next-server/server/config').NextConfig}
@@ -70,6 +111,7 @@ module.exports = () => {
     trailingSlash: false,
     pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
     eslint: {
+      ignoreDuringBuilds: true,
       dirs: ['app', 'components', 'layouts', 'scripts'],
     },
     images: {

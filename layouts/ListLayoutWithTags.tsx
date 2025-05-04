@@ -38,13 +38,20 @@ function Pagination({ totalPages, currentPage }: PaginationProps) {
     <div className="space-y-2 pt-6 pb-8 md:space-y-5">
       <nav className="flex justify-between">
         {!prevPage && (
-          <button className="cursor-auto disabled:opacity-50" disabled={!prevPage}>
+          <button
+            className="cursor-auto disabled:opacity-50"
+            disabled={!prevPage}
+          >
             Previous
           </button>
         )}
         {prevPage && (
           <Link
-            href={currentPage - 1 === 1 ? `/${basePath}/` : `/${basePath}/page/${currentPage - 1}`}
+            href={
+              currentPage - 1 === 1
+                ? `/${basePath}/`
+                : `/${basePath}/page/${currentPage - 1}`
+            }
             rel="prev"
           >
             Previous
@@ -54,7 +61,10 @@ function Pagination({ totalPages, currentPage }: PaginationProps) {
           {currentPage} of {totalPages}
         </span>
         {!nextPage && (
-          <button className="cursor-auto disabled:opacity-50" disabled={!nextPage}>
+          <button
+            className="cursor-auto disabled:opacity-50"
+            disabled={!nextPage}
+          >
             Next
           </button>
         )}
@@ -80,7 +90,8 @@ export default function ListLayoutWithTags({
   const tagKeys = Object.keys(tagCounts)
   const sortedTags = tagKeys.sort((a, b) => tagCounts[b] - tagCounts[a])
 
-  const displayPosts = initialDisplayPosts.length > 0 ? initialDisplayPosts : posts
+  const displayPosts =
+    initialDisplayPosts.length > 0 ? initialDisplayPosts : posts
 
   return (
     <>
@@ -94,7 +105,9 @@ export default function ListLayoutWithTags({
           <div className="hidden h-full max-h-screen max-w-[280px] min-w-[280px] flex-wrap overflow-auto rounded-sm bg-gray-50 pt-5 shadow-md sm:flex dark:bg-gray-900/70 dark:shadow-gray-800/40">
             <div className="px-6 py-4">
               {pathname?.startsWith('/blog') ? (
-                <h3 className="text-primary-500 font-bold uppercase">All Posts</h3>
+                <h3 className="text-primary-500 font-bold uppercase">
+                  All Posts
+                </h3>
               ) : (
                 <Link
                   href={`/blog`}
@@ -144,7 +157,10 @@ export default function ListLayoutWithTags({
                       <div className="space-y-3">
                         <div>
                           <h2 className="text-2xl leading-8 font-bold tracking-tight">
-                            <Link href={`/${path}`} className="text-gray-900 dark:text-gray-100">
+                            <Link
+                              href={`/${path}`}
+                              className="text-gray-900 dark:text-gray-100"
+                            >
                               {title}
                             </Link>
                           </h2>
@@ -162,7 +178,10 @@ export default function ListLayoutWithTags({
               })}
             </ul>
             {pagination && pagination.totalPages > 1 && (
-              <Pagination currentPage={pagination.currentPage} totalPages={pagination.totalPages} />
+              <Pagination
+                currentPage={pagination.currentPage}
+                totalPages={pagination.totalPages}
+              />
             )}
           </div>
         </div>
